@@ -123,10 +123,8 @@ namespace GameDevHQ.FileBase.Missile_Launcher.Missile
 
         private void OnCollisionEnter(Collision other)
         {
-            Destroy(other.gameObject); //destroy collided object
-
-            if (_explosionPrefab != null)
-                Instantiate(_explosionPrefab, transform.position, Quaternion.identity); //instantiate explosion
+            //if (_explosionPrefab != null)
+                //Instantiate(_explosionPrefab, transform.position, Quaternion.identity); //instantiate explosion
 
             Destroy(this.gameObject); //destroy the rocket (this)
         }
