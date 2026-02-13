@@ -3290,8 +3290,8 @@ MonoBehaviour:
   _destination: {fileID: 191414362}
   _spawnPoint: {fileID: 647121108}
   _enemyContainer: {fileID: 924638143}
-  _spawnRate: 5
-  _enemyPrefab: {fileID: 3203836754233026402, guid: 3c47de50505fa4f4c9696137738c2b8f, type: 3}
+  _spawnRate: 10
+  _enemyPrefab: {fileID: 3365768773950977035, guid: 06d945068f7df304daec30e2b0ef0076, type: 3}
 --- !u!4 &705828655
 Transform:
   m_ObjectHideFlags: 0
