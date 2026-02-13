@@ -7,12 +7,11 @@ public class Weapon_Tower_AI : MonoBehaviour
     [SerializeField] private Transform _base;
     [SerializeField] private GameObject _currentTarget;
     [SerializeField] private int _damage;
-    private GameDevHQ.FileBase.Gatling_Gun.Gatling_Gun _turret;
     private Coroutine _attackRoutine;
     // Start is called before the first frame update
     void Start()
     {
-        _turret = GetComponent<GameDevHQ.FileBase.Gatling_Gun.Gatling_Gun>();
+
     }
 
     // Update is called once per frame
@@ -30,9 +29,7 @@ public class Weapon_Tower_AI : MonoBehaviour
         {
             Debug.Log("Enemy detected");
             _currentTarget = other.gameObject;
-            _turret.ShootEnemy();
-            Enemy_AI enemy = _currentTarget.GetComponent<Enemy_AI>();
-            _attackRoutine = StartCoroutine(AttackRoutine(enemy));
+            StartShooting();
         }
     }
 
@@ -40,13 +37,23 @@ public class Weapon_Tower_AI : MonoBehaviour
     {
         if(other.tag == "Enemy")
         {
-            _currentTarget = null;
-            _turret.StopShooting();
-            if (_attackRoutine != null)
-            {
-                StopCoroutine(_attackRoutine);
-                _attackRoutine = null;
-            }
+            StopShooting();
+        }
+    }
+
+    public virtual void StartShooting()
+    {
+        Enemy_AI enemy = _currentTarget.GetComponent<Enemy_AI>();
+        _attackRoutine = StartCoroutine(AttackRoutine(enemy));
+    }
+
+    public virtual void StopShooting()
+    {
+        _currentTarget = null;
+        if (_attackRoutine != null)
+        {
+            StopCoroutine(_attackRoutine);
+            _attackRoutine = null;
         }
     }
 
@@ -58,10 +65,7 @@ public class Weapon_Tower_AI : MonoBehaviour
             yield return new WaitForSeconds(1.5f);
         }
 
-        _turret.StopShooting();
-        _currentTarget = null;
-        StopCoroutine(_attackRoutine);
-        _attackRoutine = null;
+        StopShooting();
         
     }
 }
