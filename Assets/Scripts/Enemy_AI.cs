@@ -16,6 +16,7 @@ public class Enemy_AI : MonoBehaviour
     void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
+        _anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -25,7 +26,7 @@ public class Enemy_AI : MonoBehaviour
         {
             float distance = Vector3.Distance(transform.position, _target.position);
             _agent.destination = _target.position;
-            if (distance < 0.5)
+            if (distance < 3)
             {
                 Destroy(this.gameObject);
             }
@@ -41,14 +42,13 @@ public class Enemy_AI : MonoBehaviour
     public void Damage(int amount)
     {
         _health -= amount;
-        _agent.speed = 0;
         _anim.SetTrigger("Hit");
 
         if (_health < 1)
         {
             _agent.speed = 0;
             _anim.SetTrigger("Dead");
-            _agent.enabled = false;
+            Destroy(this.gameObject, 1.5f);
         }
         else
         {
@@ -58,7 +58,8 @@ public class Enemy_AI : MonoBehaviour
 
     IEnumerator HitRoutine()
     {
-        yield return new WaitForSeconds(1.5f);
         _agent.speed = 1.5f;
+        yield return new WaitForSeconds(1.5f);
+        _agent.speed = _speed;
     }
 }

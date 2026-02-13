@@ -918,6 +918,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _base: {fileID: 1206356168}
   _currentTarget: {fileID: 0}
+  _damage: 10
 --- !u!135 &122261171
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3322,7 +3323,7 @@ MonoBehaviour:
   _destination: {fileID: 191414362}
   _spawnPoint: {fileID: 647121108}
   _enemyContainer: {fileID: 924638143}
-  _spawnRate: 10
+  _spawnRate: 5
   _enemyPrefab: {fileID: 3365768773950977035, guid: 06d945068f7df304daec30e2b0ef0076, type: 3}
 --- !u!4 &705828655
 Transform:
