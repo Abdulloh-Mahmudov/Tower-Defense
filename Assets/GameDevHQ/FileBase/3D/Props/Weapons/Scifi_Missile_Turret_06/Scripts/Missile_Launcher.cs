@@ -40,15 +40,12 @@ namespace GameDevHQ.FileBase.Missile_Launcher
         private bool _launched; //bool to check if we launched the rockets
         [SerializeField]
         private Transform _target; //Who should the rocket fire at?
+        private Coroutine _fireRoutine;
 
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space) && _launched == false) //check for space key and if we launched the rockets
-            {
-                _launched = true; //set the launch bool to true
-                StartCoroutine(FireRocketsRoutine()); //start a coroutine that fires the rockets. 
-            }
+
         }
 
         IEnumerator FireRocketsRoutine()
@@ -78,15 +75,21 @@ namespace GameDevHQ.FileBase.Missile_Launcher
             _launched = false; //set launch bool to false
         }
 
-        public void ShootEnemy()
+        public void ShootEnemy(Transform target)
         {
-            _launched = true; //set the launch bool to true
-            StartCoroutine(FireRocketsRoutine()); //start a coroutine that fires the rockets. 
+            _target = target;
+            if (_launched == false)
+            {
+                _launched = true; //set the launch bool to true
+                _fireRoutine = StartCoroutine(FireRocketsRoutine()); //start a coroutine that fires the rockets. 
+            } 
         }
 
         public void StopShooting()
         {
+            _target = null;
             _launched = false;
+            StopCoroutine(_fireRoutine);
         }
     }
 }

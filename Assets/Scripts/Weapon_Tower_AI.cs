@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Weapon_Tower_AI : MonoBehaviour
 {
-    [SerializeField] private Transform _base;
-    [SerializeField] private GameObject _currentTarget;
-    [SerializeField] private int _damage;
-    private Coroutine _attackRoutine;
+    [SerializeField] protected Transform _base;
+    [SerializeField] protected GameObject _currentTarget;
+    [SerializeField] protected int _damage;
+    protected Coroutine _attackRoutine;
     // Start is called before the first frame update
     void Start()
     {

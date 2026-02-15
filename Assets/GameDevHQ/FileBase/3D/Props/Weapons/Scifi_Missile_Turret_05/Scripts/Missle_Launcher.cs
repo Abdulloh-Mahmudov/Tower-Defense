@@ -26,6 +26,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher_Dual_Turret
         [SerializeField]
         private float _destroyTime = 10.0f; //how long till the rockets get cleaned up
         private bool _launched; //bool to check if we launched the rockets
+        private Coroutine _fireRoutine;
 
         private void Update()
         {
@@ -76,13 +77,17 @@ namespace GameDevHQ.FileBase.Missle_Launcher_Dual_Turret
 
         public void ShootEnemy()
         {
-            _launched = true; //set the launch bool to true
-            StartCoroutine(FireRocketsRoutine()); //start a coroutine that fires the rockets. 
+            if (_launched == false)
+            {
+                _launched = true; //set the launch bool to true
+                _fireRoutine = StartCoroutine(FireRocketsRoutine()); //start a coroutine that fires the rockets.
+            }
         }
 
         public void StopShooting()
         {
             _launched = false;
+            StopCoroutine(_fireRoutine);
         }
     }
 }
