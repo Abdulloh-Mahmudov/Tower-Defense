@@ -27,7 +27,6 @@ public class Weapon_Tower_AI : MonoBehaviour
     {
         if(other.tag == "Enemy" && _currentTarget == null)
         {
-            Debug.Log("Enemy detected");
             _currentTarget = other.gameObject;
             StartShooting();
         }
