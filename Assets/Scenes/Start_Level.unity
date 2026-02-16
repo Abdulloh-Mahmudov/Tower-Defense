@@ -2925,7 +2925,7 @@ GameObject:
   - component: {fileID: 534669903}
   - component: {fileID: 534669906}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Player
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3013,6 +3013,12 @@ MonoBehaviour:
   _mask:
     serializedVersion: 2
     m_Bits: 64
+  _xBoundary: -16
+  _yBoundary: 16
+  _zBoundary: -6
+  _xBoundaryNegative: -33
+  _yBoundaryNegative: 16
+  _zBoundaryNegative: -20
 --- !u!1 &552431162
 GameObject:
   m_ObjectHideFlags: 0

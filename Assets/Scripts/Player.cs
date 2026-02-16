@@ -7,11 +7,21 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private LayerMask _mask;
+    [SerializeField] private float _xBoundary;
+    [SerializeField] private float _yBoundary;
+    [SerializeField] private float _zBoundary;
+    [SerializeField] private float _xBoundaryNegative;
+    [SerializeField] private float _yBoundaryNegative;
+    [SerializeField] private float _zBoundaryNegative;
+
+
+
 
     private void Update()
     {
         Movement();
         Selection();
+        Boundaries();
     }
 
     public void Selection()
@@ -48,6 +58,36 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         transform.Translate(new Vector3(horizontal,0,vertical) * _speed * Time.deltaTime, Space.World);
+    }
+
+    public void Boundaries()
+    {
+        if (transform.position.x > _xBoundary)
+        {
+            transform.position = new Vector3(_xBoundary, transform.position.y, transform.position.z);
+        }
+        else if (transform.position.x < _xBoundaryNegative)
+        {
+            transform.position = new Vector3(_xBoundaryNegative, transform.position.y, transform.position.z);
+        }
+
+        if (transform.position.y > _yBoundary)
+        {
+            transform.position = new Vector3(transform.position.x, _yBoundary, transform.position.z);
+        }
+        else if (transform.position.y < _yBoundaryNegative)
+        {
+            transform.position = new Vector3(transform.position.x, _yBoundaryNegative, transform.position.z);
+        }
+
+        if (transform.position.z > _zBoundary)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, _zBoundary);
+        }
+        else if (transform.position.z < _zBoundaryNegative)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, _zBoundaryNegative);
+        }
     }
 
 }
