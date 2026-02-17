@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -20,8 +21,12 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Movement();
-        Selection();
         Boundaries();
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+        Selection();
     }
 
     public void Selection()
