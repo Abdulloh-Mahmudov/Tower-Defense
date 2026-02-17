@@ -7,6 +7,7 @@ public class Weapon_Tower_AI : MonoBehaviour
     [SerializeField] protected Transform _base;
     [SerializeField] protected GameObject _currentTarget;
     [SerializeField] protected int _damage;
+    [SerializeField] protected int _price;
     protected Coroutine _attackRoutine;
     // Start is called before the first frame update
     void Start()
@@ -54,6 +55,11 @@ public class Weapon_Tower_AI : MonoBehaviour
             StopCoroutine(_attackRoutine);
             _attackRoutine = null;
         }
+    }
+
+    public int GetPrice()
+    {
+        return _price;
     }
 
     IEnumerator AttackRoutine(Enemy_AI enemy)

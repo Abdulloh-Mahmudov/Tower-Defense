@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed;
+    [SerializeField] private int _warFunds;
     [SerializeField] private LayerMask _mask;
     [SerializeField] private float _xBoundary;
     [SerializeField] private float _yBoundary;
@@ -93,6 +94,11 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, _zBoundaryNegative);
         }
+    }
+
+    public void GetWarFunds(int funds)
+    {
+        _warFunds += funds;
     }
 
 }
