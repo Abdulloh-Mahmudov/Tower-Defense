@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private int _warFunds;
+    [SerializeField] private int _lives;
     [SerializeField] private LayerMask _mask;
     [SerializeField] private float _xBoundary;
     [SerializeField] private float _yBoundary;
@@ -16,8 +17,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float _yBoundaryNegative;
     [SerializeField] private float _zBoundaryNegative;
 
+    private UI_Manager _uiManager;
 
 
+    private void Start()
+    {
+        _uiManager = GameObject.Find("Canvas-UI").GetComponent<UI_Manager>();
+        _uiManager.UpdateFunds(_warFunds);
+        _uiManager.UpdateLives(_lives);
+    }
 
     private void Update()
     {
@@ -99,6 +107,12 @@ public class Player : MonoBehaviour
     public void GetWarFunds(int funds)
     {
         _warFunds += funds;
+        _uiManager.UpdateFunds(_warFunds);
     }
 
+    public void LoseLives()
+    {
+        _lives--;
+        _uiManager.UpdateLives(_lives);
+    }
 }

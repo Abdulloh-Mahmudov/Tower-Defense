@@ -12,9 +12,11 @@ public class Enemy_AI : MonoBehaviour
     [SerializeField]
     private float _health = 100f;
     private Animator _anim;
+    private Player _player;
     // Start is called before the first frame update
     void Awake()
     {
+        _player = GameObject.Find("Player").GetComponent<Player>();
         _agent = GetComponent<NavMeshAgent>();
         _anim = GetComponent<Animator>();
     }
@@ -28,6 +30,7 @@ public class Enemy_AI : MonoBehaviour
             _agent.destination = _target.position;
             if (distance < 3)
             {
+                _player.LoseLives();
                 Destroy(this.gameObject);
             }
         }

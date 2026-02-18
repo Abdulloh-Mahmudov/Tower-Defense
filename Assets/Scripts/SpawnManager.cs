@@ -8,15 +8,16 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Transform _enemyContainer;
     [SerializeField] private GameObject _enemyPrefab;
-    //[SerializeField] private int[] _enemyCountPerWave;
-    //[SerializeField] private int[] _spawnRatePerWave;
-    //[SerializeField] private int[] _delayBetweenWavesPerWave;
+    private Player _player;
+    private UI_Manager _uiManager;
     [SerializeField] Wave[] waves;
     [SerializeField] private int _currentWave;
     [SerializeField] private int _enemyCount = 0;
     // Start is called before the first frame update
     void Start()
     {
+        _player = GameObject.Find("Player").GetComponent<Player>();
+        _uiManager = GameObject.Find("Canvas-UI").GetComponent<UI_Manager>();
         StartCoroutine(Spawn());
     }
 
@@ -30,6 +31,8 @@ public class SpawnManager : MonoBehaviour
     {
         for(_currentWave = 0; _currentWave < waves.Length; _currentWave++)
         {
+            _uiManager.UpdateWaves(_currentWave + 1, waves.Length);
+            _player.GetWarFunds(waves[_currentWave].reward);
             yield return new WaitForSeconds(waves[_currentWave].waveDelay);
             for(_enemyCount = 0; _enemyCount < waves[_currentWave].enemyCount; _enemyCount++)
             {
@@ -49,4 +52,5 @@ public class Wave
     public int enemyCount;
     public int spawnRate;
     public int waveDelay;
+    public int reward;
 }
