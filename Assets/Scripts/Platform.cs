@@ -8,13 +8,15 @@ public class Platform : MonoBehaviour
     private Color _origin;
     private bool _occupied;
     private Transform _turretManager;
+    private Player _player;
     [SerializeField] private Transform _base;
-    [SerializeField] private GameObject[] _turretPrefabs;
+    [SerializeField] private Turret[] _turrets;
 
     private void Start()
     {
         _renderer = GetComponent<MeshRenderer>();
         _origin = _renderer.material.color;
+        _player = GameObject.Find("Player").GetComponent<Player>();
         _turretManager = GameObject.Find("TurretManager").transform;
     }
 
@@ -29,12 +31,20 @@ public class Platform : MonoBehaviour
     }
 
     public void Build(int turretID)
-    {
-        if (_occupied == false)
+    {       
+        if (_occupied == false && Player._warFunds >= _turrets[turretID].price)
         {
+            _player.LooseFunds(_turrets[turretID].price);
             _occupied = true;
-            GameObject turret = Instantiate(_turretPrefabs[turretID], _base.position, Quaternion.identity);
+            GameObject turret = Instantiate(_turrets[turretID].prefab, _base.position, Quaternion.identity);
             turret.transform.parent = _turretManager;
         }
     }
+}
+
+[System.Serializable]
+public class Turret
+{
+    public GameObject prefab;
+    public int price;
 }

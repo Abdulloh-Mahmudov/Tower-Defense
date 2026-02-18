@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private int _warFunds;
+    public static int _warFunds;
     [SerializeField] private int _lives;
     [SerializeField] private LayerMask _mask;
     [SerializeField] private float _xBoundary;
@@ -107,6 +107,12 @@ public class Player : MonoBehaviour
     public void GetWarFunds(int funds)
     {
         _warFunds += funds;
+        _uiManager.UpdateFunds(_warFunds);
+    }
+
+    public void LooseFunds(int funds)
+    {
+        _warFunds -= funds;
         _uiManager.UpdateFunds(_warFunds);
     }
 

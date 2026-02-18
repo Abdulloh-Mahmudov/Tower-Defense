@@ -11,7 +11,7 @@ public class UI_Manager : MonoBehaviour
 
     public void UpdateFunds(int funds)
     {
-        _funds.text = funds.ToString();
+       _funds.text = funds.ToString();
     }
 
     public void UpdateWaves(int current, int max)

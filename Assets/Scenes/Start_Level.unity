@@ -3447,7 +3447,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _warFunds: 0
   _lives: 10
   _mask:
     serializedVersion: 2
@@ -10771,10 +10770,6 @@ PrefabInstance:
     - target: {fileID: 8121306550539602486, guid: 52025c363c179fe4982f269e36378ffb, type: 3}
       propertyPath: m_Name
       value: Platform (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8121306550539602486, guid: 52025c363c179fe4982f269e36378ffb, type: 3}
-      propertyPath: m_TagString
-      value: Platform
       objectReference: {fileID: 0}
     - target: {fileID: 9039416672030861351, guid: 52025c363c179fe4982f269e36378ffb, type: 3}
       propertyPath: m_RootOrder
