@@ -7,10 +7,12 @@ public class Platform : MonoBehaviour
     private MeshRenderer _renderer;
     private Color _origin;
     private bool _occupied;
+    [SerializeField] private int _turretID;
     private Transform _turretManager;
     private Player _player;
     [SerializeField] private Transform _base;
     [SerializeField] private Turret[] _turrets;
+    [SerializeField] private GameObject _currentTurret;
 
     private void Start()
     {
@@ -34,10 +36,23 @@ public class Platform : MonoBehaviour
     {       
         if (_occupied == false && Player._warFunds >= _turrets[turretID].price)
         {
+            _turretID = turretID;
             _player.LooseFunds(_turrets[turretID].price);
             _occupied = true;
-            GameObject turret = Instantiate(_turrets[turretID].prefab, _base.position, Quaternion.identity);
-            turret.transform.parent = _turretManager;
+            _currentTurret = Instantiate(_turrets[turretID].prefab, _base.position, Quaternion.identity);
+            _currentTurret.transform.parent = _turretManager;
+        }
+    }
+
+    public void Upgrade(int turretID)
+    {
+        if (_occupied == true && Player._warFunds >= _turrets[turretID].upgradePrice)
+        {
+            Destroy(_currentTurret);
+            _player.LooseFunds(_turrets[turretID].price);
+            _occupied = true;
+            _currentTurret = Instantiate(_turrets[turretID].prefabUpgrade, _base.position, Quaternion.identity);
+            _currentTurret.transform.parent = _turretManager;
         }
     }
 }
@@ -47,4 +62,6 @@ public class Turret
 {
     public GameObject prefab;
     public int price;
+    public GameObject prefabUpgrade;
+    public int upgradePrice;
 }

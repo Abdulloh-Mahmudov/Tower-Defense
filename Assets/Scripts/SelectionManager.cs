@@ -32,13 +32,28 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    public void UpgradeButton(int turretID)
+    public void BuildButton(int turretID)
     {
         if (SelectedObject != null)
         {
             if (SelectionManager.Instance.SelectedObject.CompareTag("Platform"))
             {
                 SelectionManager.Instance.SelectedObject.GetComponent<Platform>().Build(turretID);
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+
+    public void UpgradeButton(int turretID)
+    {
+        if (SelectedObject != null)
+        {
+            if (SelectionManager.Instance.SelectedObject.CompareTag("Platform"))
+            {
+                SelectionManager.Instance.SelectedObject.GetComponent<Platform>().Upgrade(turretID);
             }
             else
             {

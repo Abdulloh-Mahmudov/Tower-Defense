@@ -143,9 +143,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7190213fe1c8454eade60a7706597b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _turretID: 0
   _base: {fileID: 8738007477518498700}
   _turrets:
   - prefab: {fileID: 125575529277398500, guid: 259c13ff8219a71498e2f6a6dfc752e3, type: 3}
     price: 200
+    prefabUpgrade: {fileID: 2297391600180327249, guid: 86fb0d8a90a73694bb15a14886cff157, type: 3}
+    upgradePrice: 500
   - prefab: {fileID: 4512787659187724909, guid: 408917d884f89ef4994443f6c6e423dc, type: 3}
     price: 500
+    prefabUpgrade: {fileID: 2960658365492253138, guid: 3f8ddd41fd5ed8e4ea5b23c8351ce940, type: 3}
+    upgradePrice: 750
+  _currentTurret: {fileID: 0}

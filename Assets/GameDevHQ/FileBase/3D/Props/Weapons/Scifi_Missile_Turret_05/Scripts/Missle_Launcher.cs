@@ -28,14 +28,7 @@ namespace GameDevHQ.FileBase.Missle_Launcher_Dual_Turret
         private bool _launched; //bool to check if we launched the rockets
         private Coroutine _fireRoutine;
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space) && _launched == false) //check for space key and if we launched the rockets
-            {
-                _launched = true; //set the launch bool to true
-                StartCoroutine(FireRocketsRoutine()); //start a coroutine that fires the rockets. 
-            }
-        }
+
 
         IEnumerator FireRocketsRoutine()
         {
