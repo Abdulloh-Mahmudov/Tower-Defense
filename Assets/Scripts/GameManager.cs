@@ -6,9 +6,11 @@ using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
     // Start is called before the first frame update
     void Start()
     {
+        Instance = this;
         ResumeTime();
     }
 
@@ -33,6 +35,21 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
+    }
+
+    public void GameOver()
+    {
+        UI_Manager.Instance.GameOver();
+    }
+
+    public void GameWon()
+    {
+        UI_Manager.Instance.GameWon();
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
     }
 }

@@ -36,6 +36,10 @@ public class Player : MonoBehaviour
         {
             return;
         }
+        if(_lives <= 0)
+        {
+            GameManager.Instance.GameOver();
+        }
         Selection();
     }
 

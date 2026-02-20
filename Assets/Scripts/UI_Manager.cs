@@ -12,10 +12,15 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private GameObject _actionMenus;
     [SerializeField] private GameObject _upgradeOne;
     [SerializeField] private GameObject _upgradeTwo;
+    [SerializeField] private GameObject _gameOver;
+    [SerializeField] private GameObject _gameWon;
+    [SerializeField] private GameObject _mainUI;
 
     private void Start()
     {
         Instance = this;
+        _gameOver.SetActive(false);
+        _gameWon.SetActive(false);
     }
 
     private void Update()
@@ -87,5 +92,17 @@ public class UI_Manager : MonoBehaviour
         {
             _actionMenus.transform.GetChild(i).gameObject.SetActive(false);
         }
+    }
+
+    public void GameOver()
+    {
+        _gameOver.SetActive(true);
+        _mainUI.SetActive(false);
+    }
+
+    public void GameWon()
+    {
+        _gameWon.SetActive(true);
+        _mainUI.SetActive(false);
     }
 }
