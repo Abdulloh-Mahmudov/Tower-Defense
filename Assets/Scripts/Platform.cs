@@ -6,6 +6,7 @@ public class Platform : MonoBehaviour
 {
     private MeshRenderer _renderer;
     private Color _origin;
+    [SerializeField] private Color _selectedColor;
     public bool _occupied;
     public bool _upgraded;
     [SerializeField] public int _turretID;
@@ -25,7 +26,7 @@ public class Platform : MonoBehaviour
 
     public void Selected()
     {
-        _renderer.material.color = Color.yellow;
+        _renderer.material.color = _selectedColor;
     }
 
     public void UnSelected()
