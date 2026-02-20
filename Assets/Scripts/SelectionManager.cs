@@ -23,6 +23,7 @@ public class SelectionManager : MonoBehaviour
             SelectedObject = null;
             SelectedObject = obj;
             SelectedObject.GetComponent<Platform>().Selected();
+            UI_Manager.Instance.HideUpgradeUI();
         }
         else
         {
@@ -52,8 +53,23 @@ public class SelectionManager : MonoBehaviour
         if (SelectedObject != null)
         {
             if (SelectionManager.Instance.SelectedObject.CompareTag("Platform"))
-            {
+            {             
                 SelectionManager.Instance.SelectedObject.GetComponent<Platform>().Upgrade(turretID);
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+
+    public void Dismantle()
+    {
+        if (SelectedObject != null)
+        {
+            if (SelectionManager.Instance.SelectedObject.CompareTag("Platform"))
+            {
+                SelectionManager.Instance.SelectedObject.GetComponent<Platform>().Dismantle();
             }
             else
             {

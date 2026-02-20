@@ -6,8 +6,9 @@ public class Platform : MonoBehaviour
 {
     private MeshRenderer _renderer;
     private Color _origin;
-    private bool _occupied;
-    [SerializeField] private int _turretID;
+    public bool _occupied;
+    public bool _upgraded;
+    [SerializeField] public int _turretID;
     private Transform _turretManager;
     private Player _player;
     [SerializeField] private Transform _base;
@@ -46,14 +47,24 @@ public class Platform : MonoBehaviour
 
     public void Upgrade(int turretID)
     {
-        if (_occupied == true && Player._warFunds >= _turrets[turretID].upgradePrice)
+        if (_occupied == true &&_upgraded == false && Player._warFunds >= _turrets[turretID].upgradePrice)
         {
             Destroy(_currentTurret);
-            _player.LooseFunds(_turrets[turretID].price);
+            _player.LooseFunds(_turrets[turretID].upgradePrice);
             _occupied = true;
+            _upgraded = true;
             _currentTurret = Instantiate(_turrets[turretID].prefabUpgrade, _base.position, Quaternion.identity);
             _currentTurret.transform.parent = _turretManager;
         }
+    }
+
+    public void Dismantle()
+    {
+        _turretID = 0;
+        _player.GetWarFunds(100);
+        _occupied = false;
+        _upgraded = false;
+        Destroy(_currentTurret);
     }
 }
 

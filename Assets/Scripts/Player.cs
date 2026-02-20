@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        _warFunds = 0;
         _uiManager = GameObject.Find("Canvas-UI").GetComponent<UI_Manager>();
         _uiManager.UpdateFunds(_warFunds);
         _uiManager.UpdateLives(_lives);

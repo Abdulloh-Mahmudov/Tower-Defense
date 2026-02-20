@@ -5,9 +5,30 @@ using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
+    public static UI_Manager Instance;
     [SerializeField] private Text _funds;
     [SerializeField] private Text _wave;
     [SerializeField] private Text _lives;
+    [SerializeField] private GameObject _actionMenus;
+    [SerializeField] private GameObject _upgradeOne;
+    [SerializeField] private GameObject _upgradeTwo;
+
+    private void Start()
+    {
+        Instance = this;
+    }
+
+    private void Update()
+    {
+        if (SelectionManager.Instance.SelectedObject != null)
+        {
+            _actionMenus.SetActive(true);
+        }
+        else
+        {
+            _actionMenus.SetActive(false);
+        }
+    }
 
     public void UpdateFunds(int funds)
     {
@@ -22,5 +43,49 @@ public class UI_Manager : MonoBehaviour
     public void UpdateLives(int lives)
     {
         _lives.text = lives.ToString();
+    }
+
+    public void HideUI(GameObject element)
+    {
+        element.SetActive(false);
+    }
+
+    public void ShowUI(GameObject element)
+    {
+        if(SelectionManager.Instance.SelectedObject != null)
+        {
+            element.SetActive(true);
+        }
+    }
+
+    public void ShowUpgradeUI()
+    {
+        if(SelectionManager.Instance.SelectedObject != null)
+        {
+            int ID = SelectionManager.Instance.SelectedObject.GetComponent<Platform>()._turretID;
+            bool upgraded = SelectionManager.Instance.SelectedObject.GetComponent<Platform>()._upgraded;
+            bool occupied = SelectionManager.Instance.SelectedObject.GetComponent<Platform>()._occupied;
+            if (upgraded != true && occupied == true)
+            {
+                if (ID == 0)
+                {
+                    _upgradeOne.SetActive(true);
+                    _upgradeTwo.SetActive(false);
+                }
+                else if (ID == 1)
+                {
+                    _upgradeOne.SetActive(false);
+                    _upgradeTwo.SetActive(true);
+                }
+            }
+        }
+    }
+
+    public void HideUpgradeUI()
+    {
+        for (int i = 0; i < _actionMenus.transform.childCount; i++)
+        {
+            _actionMenus.transform.GetChild(i).gameObject.SetActive(false);
+        }
     }
 }

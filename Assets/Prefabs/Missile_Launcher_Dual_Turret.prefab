@@ -1081,7 +1081,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _base: {fileID: 2954736001215753574}
   _currentTarget: {fileID: 0}
-  _damage: 0
+  _damage: 40
+  _fireRate: 1.5
 --- !u!1 &2960665930144951118
 GameObject:
   m_ObjectHideFlags: 0
