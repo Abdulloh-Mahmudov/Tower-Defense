@@ -38,14 +38,22 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void GameOver()
     {
+        StopTime();
         UI_Manager.Instance.GameOver();
     }
 
     public void GameWon()
     {
+        StopTime();
         UI_Manager.Instance.GameWon();
+        
     }
 
     public void Exit()

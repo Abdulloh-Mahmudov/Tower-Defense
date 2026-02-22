@@ -13,6 +13,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] Wave[] waves;
     [SerializeField] private int _currentWave;
     [SerializeField] private int _enemyCount = 0;
+    [SerializeField] private int _currentEnemies = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,13 +25,18 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        _currentEnemies = _enemyContainer.childCount;
     }
 
     IEnumerator Spawn()
     {
         for(_currentWave = 0; _currentWave < waves.Length; _currentWave++)
         {
+            while(_currentEnemies > 0)
+            {
+                yield return null;
+            }
+
             _uiManager.UpdateWaves(_currentWave + 1, waves.Length);
             _player.GetWarFunds(waves[_currentWave].reward);
             yield return new WaitForSeconds(waves[_currentWave].waveDelay);
@@ -42,7 +48,11 @@ public class SpawnManager : MonoBehaviour
                 yield return new WaitForSeconds(waves[_currentWave].spawnRate);
             }
         }
-        
+        while(_currentEnemies > 0)
+        {
+            yield return null;
+        }
+        GameManager.Instance.GameWon();
     }
 }
 
