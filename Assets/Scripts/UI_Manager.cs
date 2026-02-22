@@ -15,6 +15,7 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private GameObject _gameOver;
     [SerializeField] private GameObject _gameWon;
     [SerializeField] private GameObject _mainUI;
+    [SerializeField] private GameObject _pauseMenu;
 
     private void Start()
     {
@@ -104,5 +105,10 @@ public class UI_Manager : MonoBehaviour
     {
         _gameWon.SetActive(true);
         _mainUI.SetActive(false);
+    }
+
+    public void PauseMenu(bool active)
+    {
+        _pauseMenu.SetActive(active);
     }
 }
