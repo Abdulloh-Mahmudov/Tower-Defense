@@ -30,7 +30,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        Movement();
         Boundaries();
         if (EventSystem.current.IsPointerOverGameObject())
         {
@@ -63,20 +62,20 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Movement()
+    public void Movement(Vector2 direction)
     {
-        if (Input.GetKey(KeyCode.R))
-        {
-            transform.Translate(new Vector3(0, 1, 0) * _speed * Time.deltaTime, Space.Self);
-        }
-        else if (Input.GetKey(KeyCode.T))
-        {
-            transform.Translate(new Vector3(0, -1, 0) * _speed * Time.deltaTime, Space.Self);
-        }
+        //if (Input.GetKey(KeyCode.R))
+        //{
+        //    transform.Translate(new Vector3(0, 1, 0) * _speed * Time.deltaTime, Space.Self);
+        //}
+        //else if (Input.GetKey(KeyCode.T))
+        //{
+        //    transform.Translate(new Vector3(0, -1, 0) * _speed * Time.deltaTime, Space.Self);
+        //}
 
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        transform.Translate(new Vector3(horizontal,0,vertical) * _speed * Time.deltaTime, Space.World);
+        //float horizontal = Input.GetAxis("Horizontal");
+        //float vertical = Input.GetAxis("Vertical");
+        transform.Translate(new Vector3(direction.x,0,direction.y) * _speed * Time.deltaTime, Space.World);
     }
 
     public void Boundaries()
