@@ -42,9 +42,9 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(waves[_currentWave].waveDelay);
             for(_enemyCount = 0; _enemyCount < waves[_currentWave].enemyCount; _enemyCount++)
             {
-                GameObject enemy = Instantiate(_enemyPrefab, _spawnPoint.position, Quaternion.identity);
+                Enemy_AI enemy = Instantiate(_enemyPrefab, _spawnPoint.position, Quaternion.identity).GetComponent<Enemy_AI>();
                 enemy.transform.parent = _enemyContainer;
-                enemy.GetComponent<Enemy_AI>().SetDestination(_destination);
+                enemy.SetDestination(_destination);
                 yield return new WaitForSeconds(waves[_currentWave].spawnRate);
             }
         }

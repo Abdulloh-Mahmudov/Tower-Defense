@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class Enemy_AI : MonoBehaviour
 {
+    public static event Action OnEnemyDied;
+    public static event Action OnEnemyReachedBase;
     private NavMeshAgent _agent;
     private Transform _target;
     [SerializeField]
@@ -31,7 +34,7 @@ public class Enemy_AI : MonoBehaviour
             if (distance < 3)
             {
                 _player.LoseLives();
-                Destroy(this.gameObject);
+                ReachedDestination();
             }
         }
     }
@@ -49,14 +52,26 @@ public class Enemy_AI : MonoBehaviour
 
         if (_health < 1)
         {
-            _agent.speed = 0;
-            _anim.SetTrigger("Dead");
-            Destroy(this.gameObject, 1.5f);
+            Died();
         }
         else
         {
             StartCoroutine(HitRoutine());
         }
+    }
+
+    private void Died()
+    {
+        OnEnemyDied?.Invoke();
+        _agent.speed = 0;
+        _anim.SetTrigger("Dead");
+        Destroy(this.gameObject, 1.5f);
+    }
+
+    private void ReachedDestination()
+    {
+        OnEnemyReachedBase?.Invoke();
+        Destroy(this.gameObject);
     }
 
     IEnumerator HitRoutine()
