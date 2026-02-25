@@ -33,7 +33,7 @@ public class Enemy_AI : MonoBehaviour
             _agent.destination = _target.position;
             if (distance < 3)
             {
-                _player.LoseLives();
+                //_player.LoseLives();
                 ReachedDestination();
             }
         }

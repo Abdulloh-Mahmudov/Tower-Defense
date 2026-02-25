@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using System;
+
 
 public class Player : MonoBehaviour
 {
+    public static event Action<int> OnLivesChanged;
+
     [SerializeField] private float _speed;
     public static int _warFunds;
     [SerializeField] private int _lives;
@@ -19,13 +23,26 @@ public class Player : MonoBehaviour
 
     private UI_Manager _uiManager;
 
+    private void OnEnable()
+    {
+        Enemy_AI.OnEnemyReachedBase += HandleEnemyAttack;
+    }
+
+    private void HandleEnemyAttack()
+    {
+        LoseLives();
+    }
+
+    private void OnDisable()
+    {
+        Enemy_AI.OnEnemyReachedBase -= HandleEnemyAttack;
+    }
 
     private void Start()
     {
         _warFunds = 0;
         _uiManager = GameObject.Find("Canvas-UI").GetComponent<UI_Manager>();
         _uiManager.UpdateFunds(_warFunds);
-        _uiManager.UpdateLives(_lives);
     }
 
     private void Update()
@@ -64,17 +81,6 @@ public class Player : MonoBehaviour
 
     public void Movement(Vector2 direction)
     {
-        //if (Input.GetKey(KeyCode.R))
-        //{
-        //    transform.Translate(new Vector3(0, 1, 0) * _speed * Time.deltaTime, Space.Self);
-        //}
-        //else if (Input.GetKey(KeyCode.T))
-        //{
-        //    transform.Translate(new Vector3(0, -1, 0) * _speed * Time.deltaTime, Space.Self);
-        //}
-
-        //float horizontal = Input.GetAxis("Horizontal");
-        //float vertical = Input.GetAxis("Vertical");
         transform.Translate(new Vector3(direction.x,0,direction.y) * _speed * Time.deltaTime, Space.World);
     }
 
@@ -123,6 +129,6 @@ public class Player : MonoBehaviour
     public void LoseLives()
     {
         _lives--;
-        _uiManager.UpdateLives(_lives);
+        OnLivesChanged?.Invoke(_lives);
     }
 }
