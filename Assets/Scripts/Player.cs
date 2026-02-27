@@ -26,16 +26,29 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         Enemy_AI.OnEnemyReachedBase += HandleEnemyAttack;
+        SpawnManager.OnWaveEnded += HandleWaveReward;
+        Platform.OnTurretDismantle += HandleTurretDismantle;
     }
 
-    private void HandleEnemyAttack()
+    private void HandleTurretDismantle(int reward)
     {
-        LoseLives();
+        GetWarFunds(reward);
     }
 
     private void OnDisable()
     {
         Enemy_AI.OnEnemyReachedBase -= HandleEnemyAttack;
+        SpawnManager.OnWaveEnded -= HandleWaveReward;
+    }
+
+    private void HandleWaveReward(int reward)
+    {
+        GetWarFunds(reward);
+    }
+
+    private void HandleEnemyAttack()
+    {
+        LoseLives();
     }
 
     private void Start()
@@ -47,7 +60,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        Boundaries();
         if (EventSystem.current.IsPointerOverGameObject())
         {
             return;
@@ -82,39 +94,21 @@ public class Player : MonoBehaviour
     public void Movement(Vector2 direction)
     {
         transform.Translate(new Vector3(direction.x,0,direction.y) * _speed * Time.deltaTime, Space.World);
+        Boundaries();
     }
 
     public void Boundaries()
     {
-        if (transform.position.x > _xBoundary)
-        {
-            transform.position = new Vector3(_xBoundary, transform.position.y, transform.position.z);
-        }
-        else if (transform.position.x < _xBoundaryNegative)
-        {
-            transform.position = new Vector3(_xBoundaryNegative, transform.position.y, transform.position.z);
-        }
+        Vector3 pos = transform.position;
 
-        if (transform.position.y > _yBoundary)
-        {
-            transform.position = new Vector3(transform.position.x, _yBoundary, transform.position.z);
-        }
-        else if (transform.position.y < _yBoundaryNegative)
-        {
-            transform.position = new Vector3(transform.position.x, _yBoundaryNegative, transform.position.z);
-        }
+        pos.x = Mathf.Clamp(pos.x, _xBoundaryNegative, _xBoundary);
+        pos.y = Mathf.Clamp(pos.y, _yBoundaryNegative, _yBoundary);
+        pos.z = Mathf.Clamp(pos.z, _zBoundaryNegative, _zBoundary);
 
-        if (transform.position.z > _zBoundary)
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y, _zBoundary);
-        }
-        else if (transform.position.z < _zBoundaryNegative)
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y, _zBoundaryNegative);
-        }
+        transform.position = pos;
     }
 
-    public void GetWarFunds(int funds)
+    void GetWarFunds(int funds)
     {
         _warFunds += funds;
         _uiManager.UpdateFunds(_warFunds);
@@ -126,7 +120,7 @@ public class Player : MonoBehaviour
         _uiManager.UpdateFunds(_warFunds);
     }
 
-    public void LoseLives()
+    void LoseLives()
     {
         _lives--;
         OnLivesChanged?.Invoke(_lives);

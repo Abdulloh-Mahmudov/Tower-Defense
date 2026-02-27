@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Platform : MonoBehaviour
 {
+    public static event Action<int> OnTurretDismantle;
+
     private MeshRenderer _renderer;
     private Color _origin;
     [SerializeField] private Color _selectedColor;
@@ -62,7 +65,7 @@ public class Platform : MonoBehaviour
     public void Dismantle()
     {
         _turretID = 0;
-        _player.GetWarFunds(100);
+        OnTurretDismantle?.Invoke(100);
         _occupied = false;
         _upgraded = false;
         Destroy(_currentTurret);

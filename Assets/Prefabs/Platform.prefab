@@ -144,9 +144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7190213fe1c8454eade60a7706597b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _selectedColor: {r: 0, g: 0, b: 0, a: 0}
   _occupied: 0
   _upgraded: 0
   _turretID: 0
+  _dismantleReward: 100
   _base: {fileID: 8738007477518498700}
   _turrets:
   - prefab: {fileID: 125575529277398500, guid: 259c13ff8219a71498e2f6a6dfc752e3, type: 3}

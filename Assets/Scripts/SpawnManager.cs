@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class SpawnManager : MonoBehaviour
 {
+    public static event Action<int> OnWaveEnded;
+
     [SerializeField] private Transform _destination;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Transform _enemyContainer;
@@ -28,6 +31,8 @@ public class SpawnManager : MonoBehaviour
         _currentEnemies = _enemyContainer.childCount;
     }
 
+
+
     IEnumerator Spawn()
     {
         for(_currentWave = 0; _currentWave < waves.Length; _currentWave++)
@@ -38,7 +43,8 @@ public class SpawnManager : MonoBehaviour
             }
 
             _uiManager.UpdateWaves(_currentWave + 1, waves.Length);
-            _player.GetWarFunds(waves[_currentWave].reward);
+            //_player.GetWarFunds(waves[_currentWave].reward);
+            OnWaveEnded?.Invoke(waves[_currentWave].reward);
             yield return new WaitForSeconds(waves[_currentWave].waveDelay);
             for(_enemyCount = 0; _enemyCount < waves[_currentWave].enemyCount; _enemyCount++)
             {
