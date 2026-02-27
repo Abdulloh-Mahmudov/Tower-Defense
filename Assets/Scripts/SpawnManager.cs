@@ -6,6 +6,7 @@ using System;
 public class SpawnManager : MonoBehaviour
 {
     public static event Action<int> OnWaveEnded;
+    public static event Action<int, int> OnWaveStart;
 
     [SerializeField] private Transform _destination;
     [SerializeField] private Transform _spawnPoint;
@@ -38,7 +39,7 @@ public class SpawnManager : MonoBehaviour
                 yield return null;
             }
 
-            UI_Manager.Instance.UpdateWaves(_currentWave + 1, waves.Length);
+            OnWaveStart?.Invoke(_currentWave + 1, waves.Length);
             OnWaveEnded?.Invoke(waves[_currentWave].reward);
             yield return new WaitForSeconds(waves[_currentWave].waveDelay);
             for(_enemyCount = 0; _enemyCount < waves[_currentWave].enemyCount; _enemyCount++)

@@ -21,12 +21,20 @@ public class UI_Manager : MonoBehaviour
     {
         Player.OnLivesChanged -= UpDateLives;
         Player.OnWarfundsChanged -= UpdateWarfunds;
+        SpawnManager.OnWaveStart -= SpawnManager_OnWaveStart;
     }
 
     private void OnEnable()
     {
         Player.OnLivesChanged += UpDateLives;
         Player.OnWarfundsChanged += UpdateWarfunds;
+        SpawnManager.OnWaveStart += SpawnManager_OnWaveStart;
+    }
+
+
+    private void SpawnManager_OnWaveStart(int current, int max)
+    {
+        _wave.text = current + "/" + max;
     }
 
     private void UpdateWarfunds(int funds)
@@ -59,10 +67,7 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
-    public void UpdateWaves(int current, int max)
-    {
-        _wave.text = current + "/" + max;
-    }
+
 
     public void HideUI(GameObject element)
     {
@@ -81,9 +86,10 @@ public class UI_Manager : MonoBehaviour
     {
         if(SelectionManager.Instance.SelectedObject != null)
         {
-            int ID = SelectionManager.Instance.SelectedObject.GetComponent<Platform>()._turretID;
-            bool upgraded = SelectionManager.Instance.SelectedObject.GetComponent<Platform>()._upgraded;
-            bool occupied = SelectionManager.Instance.SelectedObject.GetComponent<Platform>()._occupied;
+            Platform platform = SelectionManager.Instance.SelectedObject.GetComponent<Platform>();
+            int ID = platform._turretID;
+            bool upgraded = platform._upgraded;
+            bool occupied = platform._occupied;
             if (upgraded != true && occupied == true)
             {
                 if (ID == 0)
