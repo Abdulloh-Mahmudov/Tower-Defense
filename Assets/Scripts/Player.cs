@@ -9,6 +9,7 @@ using System;
 public class Player : MonoBehaviour
 {
     public static event Action<int> OnLivesChanged;
+    public static event Action<int> OnWarfundsChanged;
 
     [SerializeField] private float _speed;
     public static int _warFunds;
@@ -21,24 +22,29 @@ public class Player : MonoBehaviour
     [SerializeField] private float _yBoundaryNegative;
     [SerializeField] private float _zBoundaryNegative;
 
-    private UI_Manager _uiManager;
+    private void OnDisable()
+    {
+        Enemy_AI.OnEnemyReachedBase -= HandleEnemyAttack;
+        SpawnManager.OnWaveEnded -= HandleWaveReward;
+        Platform.OnTurretDismantle -= HandleTurretDismantle;
+    }
 
     private void OnEnable()
     {
         Enemy_AI.OnEnemyReachedBase += HandleEnemyAttack;
         SpawnManager.OnWaveEnded += HandleWaveReward;
         Platform.OnTurretDismantle += HandleTurretDismantle;
+        Platform.OnTurretPurchase += HandleTurretPurchase;
+    }
+
+    private void HandleTurretPurchase(int price)
+    {
+        LooseFunds(price);
     }
 
     private void HandleTurretDismantle(int reward)
     {
         GetWarFunds(reward);
-    }
-
-    private void OnDisable()
-    {
-        Enemy_AI.OnEnemyReachedBase -= HandleEnemyAttack;
-        SpawnManager.OnWaveEnded -= HandleWaveReward;
     }
 
     private void HandleWaveReward(int reward)
@@ -54,8 +60,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _warFunds = 0;
-        _uiManager = GameObject.Find("Canvas-UI").GetComponent<UI_Manager>();
-        _uiManager.UpdateFunds(_warFunds);
+        OnWarfundsChanged?.Invoke(_warFunds);
     }
 
     private void Update()
@@ -97,7 +102,7 @@ public class Player : MonoBehaviour
         Boundaries();
     }
 
-    public void Boundaries()
+    void Boundaries()
     {
         Vector3 pos = transform.position;
 
@@ -111,13 +116,13 @@ public class Player : MonoBehaviour
     void GetWarFunds(int funds)
     {
         _warFunds += funds;
-        _uiManager.UpdateFunds(_warFunds);
+        OnWarfundsChanged?.Invoke(_warFunds);
     }
 
-    public void LooseFunds(int funds)
+    void LooseFunds(int funds)
     {
         _warFunds -= funds;
-        _uiManager.UpdateFunds(_warFunds);
+        OnWarfundsChanged?.Invoke(_warFunds);
     }
 
     void LoseLives()

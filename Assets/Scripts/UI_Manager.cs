@@ -17,9 +17,21 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private GameObject _mainUI;
     [SerializeField] private GameObject _pauseMenu;
 
+    private void OnDisable()
+    {
+        Player.OnLivesChanged -= UpDateLives;
+        Player.OnWarfundsChanged -= UpdateWarfunds;
+    }
+
     private void OnEnable()
     {
         Player.OnLivesChanged += UpDateLives;
+        Player.OnWarfundsChanged += UpdateWarfunds;
+    }
+
+    private void UpdateWarfunds(int funds)
+    {
+        _funds.text = funds.ToString();
     }
 
     private void UpDateLives(int lives)
@@ -27,10 +39,6 @@ public class UI_Manager : MonoBehaviour
         _lives.text = lives.ToString();
     }
 
-    private void OnDisable()
-    {
-        Player.OnLivesChanged -= UpDateLives;
-    }
 
     private void Start()
     {
@@ -49,11 +57,6 @@ public class UI_Manager : MonoBehaviour
         {
             _actionMenus.SetActive(false);
         }
-    }
-
-    public void UpdateFunds(int funds)
-    {
-       _funds.text = funds.ToString();
     }
 
     public void UpdateWaves(int current, int max)

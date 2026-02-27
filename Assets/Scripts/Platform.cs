@@ -6,6 +6,7 @@ using System;
 public class Platform : MonoBehaviour
 {
     public static event Action<int> OnTurretDismantle;
+    public static event Action<int> OnTurretPurchase;
 
     private MeshRenderer _renderer;
     private Color _origin;
@@ -14,7 +15,6 @@ public class Platform : MonoBehaviour
     public bool _upgraded;
     [SerializeField] public int _turretID;
     private Transform _turretManager;
-    private Player _player;
     [SerializeField] private Transform _base;
     [SerializeField] private Turret[] _turrets;
     [SerializeField] private GameObject _currentTurret;
@@ -23,7 +23,6 @@ public class Platform : MonoBehaviour
     {
         _renderer = GetComponent<MeshRenderer>();
         _origin = _renderer.material.color;
-        _player = GameObject.Find("Player").GetComponent<Player>();
         _turretManager = GameObject.Find("TurretManager").transform;
     }
 
@@ -42,7 +41,7 @@ public class Platform : MonoBehaviour
         if (_occupied == false && Player._warFunds >= _turrets[turretID].price)
         {
             _turretID = turretID;
-            _player.LooseFunds(_turrets[turretID].price);
+            OnTurretPurchase?.Invoke(_turrets[turretID].price);
             _occupied = true;
             _currentTurret = Instantiate(_turrets[turretID].prefab, _base.position, Quaternion.identity);
             _currentTurret.transform.parent = _turretManager;
@@ -54,7 +53,7 @@ public class Platform : MonoBehaviour
         if (_occupied == true &&_upgraded == false && Player._warFunds >= _turrets[turretID].upgradePrice)
         {
             Destroy(_currentTurret);
-            _player.LooseFunds(_turrets[turretID].upgradePrice);
+            OnTurretPurchase?.Invoke(_turrets[turretID].upgradePrice);
             _occupied = true;
             _upgraded = true;
             _currentTurret = Instantiate(_turrets[turretID].prefabUpgrade, _base.position, Quaternion.identity);

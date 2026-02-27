@@ -11,8 +11,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Transform _enemyContainer;
     [SerializeField] private GameObject _enemyPrefab;
-    private Player _player;
-    private UI_Manager _uiManager;
     [SerializeField] Wave[] waves;
     [SerializeField] private int _currentWave;
     [SerializeField] private int _enemyCount = 0;
@@ -20,8 +18,6 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _player = GameObject.Find("Player").GetComponent<Player>();
-        _uiManager = GameObject.Find("Canvas-UI").GetComponent<UI_Manager>();
         StartCoroutine(Spawn());
     }
 
@@ -42,8 +38,7 @@ public class SpawnManager : MonoBehaviour
                 yield return null;
             }
 
-            _uiManager.UpdateWaves(_currentWave + 1, waves.Length);
-            //_player.GetWarFunds(waves[_currentWave].reward);
+            UI_Manager.Instance.UpdateWaves(_currentWave + 1, waves.Length);
             OnWaveEnded?.Invoke(waves[_currentWave].reward);
             yield return new WaitForSeconds(waves[_currentWave].waveDelay);
             for(_enemyCount = 0; _enemyCount < waves[_currentWave].enemyCount; _enemyCount++)
