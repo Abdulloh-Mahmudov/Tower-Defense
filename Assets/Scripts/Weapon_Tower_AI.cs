@@ -43,8 +43,11 @@ public class Weapon_Tower_AI : MonoBehaviour
 
     public virtual void StartShooting()
     {
-        Enemy_AI enemy = _currentTarget.GetComponent<Enemy_AI>();
-        _attackRoutine = StartCoroutine(AttackRoutine(enemy));
+        if(_currentTarget != null)
+        {
+            Enemy_AI enemy = _currentTarget.GetComponent<Enemy_AI>();
+            _attackRoutine = StartCoroutine(AttackRoutine(enemy));
+        }
     }
 
     public virtual void StopShooting()

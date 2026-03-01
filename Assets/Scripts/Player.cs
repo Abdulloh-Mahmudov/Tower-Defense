@@ -10,7 +10,13 @@ public class Player : MonoBehaviour
 {
     public static event Action<int> OnLivesChanged;
     public static event Action<int> OnWarfundsChanged;
+    public static event Action<Color> OnProjectionUsed;
+    public static event Action<Platform,int> OnUpgradePlatformSelected;
 
+    [SerializeField] private GameObject _projection;
+    [SerializeField] private GameObject _currentProjection;
+    private int _currentProjectionID;
+    [SerializeField] private bool _isProjecting;
     [SerializeField] private float _speed;
     public static int _warFunds;
     [SerializeField] private int _lives;
@@ -27,6 +33,7 @@ public class Player : MonoBehaviour
         Enemy_AI.OnEnemyReachedBase -= HandleEnemyAttack;
         SpawnManager.OnWaveEnded -= HandleWaveReward;
         Platform.OnTurretDismantle -= HandleTurretDismantle;
+        Platform.OnTurretPurchase -= HandleTurretPurchase;
     }
 
     private void OnEnable()
@@ -73,7 +80,50 @@ public class Player : MonoBehaviour
         {
             GameManager.Instance.GameOver();
         }
-        Selection();
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            _isProjecting = false;
+        }
+        if (Keyboard.current.rKey.isPressed)
+        {
+            _isProjecting = true;
+        }
+
+
+        if (_isProjecting)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, _mask))
+            {
+                if(_currentProjection == null)
+                {
+                    _currentProjection = Instantiate(_projection, hit.point, Quaternion.identity);
+                }
+                else
+                {
+                    _currentProjection.transform.position = hit.point;
+                }
+                if (hit.transform.gameObject.CompareTag("Platform"))
+                {
+                    OnProjectionUsed?.Invoke(Color.green);
+                    if (Input.GetMouseButtonDown(0))
+                        OnUpgradePlatformSelected?.Invoke(hit.transform.GetComponent<Platform>(),_currentProjectionID);
+                    
+                }
+                else
+                {
+                    OnProjectionUsed?.Invoke(Color.red);
+                }
+            }
+        }
+        else
+        {
+            Destroy(_currentProjection);
+            _currentProjection = null;
+            Selection();
+        }
     }
 
     public void Selection()

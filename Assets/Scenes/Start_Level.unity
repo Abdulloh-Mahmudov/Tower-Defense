@@ -4119,6 +4119,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8012c47b0abf9142b24e10c0cf9decd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _projection: {fileID: 3475938929794165288, guid: d34d17d0b26fc2a4f9f2a36e5da7b8cd, type: 3}
+  _currentProjection: {fileID: 0}
+  _isProjecting: 0
   _speed: 5
   _lives: 20
   _mask:
