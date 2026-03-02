@@ -4120,8 +4120,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projection:
-  - {fileID: 3475938929794165288, guid: d34d17d0b26fc2a4f9f2a36e5da7b8cd, type: 3}
-  - {fileID: 7336899928081085653, guid: c7ed61eed6c630f4e9e50a7942f90c2a, type: 3}
+  - prefab: {fileID: 3475938929794165288, guid: d34d17d0b26fc2a4f9f2a36e5da7b8cd, type: 3}
+    price: 200
+  - prefab: {fileID: 7336899928081085653, guid: c7ed61eed6c630f4e9e50a7942f90c2a, type: 3}
+    price: 500
   _currentProjection: {fileID: 0}
   _isProjecting: 0
   _speed: 5

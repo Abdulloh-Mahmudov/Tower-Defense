@@ -69,6 +69,11 @@ public class Platform : MonoBehaviour
         _upgraded = false;
         Destroy(_currentTurret);
     }
+
+    public bool IsOccupied()
+    {
+        return _occupied;
+    }
 }
 
 [System.Serializable]

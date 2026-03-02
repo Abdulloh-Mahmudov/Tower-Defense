@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     public static event Action<Color> OnProjectionUsed;
     public static event Action<Platform,int> OnUpgradePlatformSelected;
 
-    [SerializeField] private GameObject[] _projection;
+    [SerializeField] private Projections[] _projection;
     [SerializeField] private GameObject _currentProjection;
     private int _currentProjectionID;
     [SerializeField] private bool _isProjecting;
@@ -99,11 +99,18 @@ public class Player : MonoBehaviour
                 {
                     _currentProjection.transform.position = hit.point;
                 }
-                if (hit.transform.gameObject.CompareTag("Platform"))
+                if (hit.transform.gameObject.CompareTag("Platform") && _projection[_currentProjectionID].price <= _warFunds)
                 {
-                    OnProjectionUsed?.Invoke(Color.green);
-                    if (Input.GetMouseButtonDown(0))
-                        OnUpgradePlatformSelected?.Invoke(hit.transform.GetComponent<Platform>(),_currentProjectionID);
+                    if(hit.transform.GetComponent<Platform>().IsOccupied() != true)
+                    {
+                        OnProjectionUsed?.Invoke(Color.green);
+                        if (Input.GetMouseButtonDown(0))
+                            OnUpgradePlatformSelected?.Invoke(hit.transform.GetComponent<Platform>(), _currentProjectionID);
+                    }
+                    else
+                    {
+                        OnProjectionUsed?.Invoke(Color.red);
+                    }
                     
                 }
                 else
@@ -167,7 +174,7 @@ public class Player : MonoBehaviour
         {
             if (_currentProjection == null)
             {
-                _currentProjection = Instantiate(_projection[turretID], hit.point, Quaternion.identity);
+                _currentProjection = Instantiate(_projection[turretID].prefab, hit.point, Quaternion.identity);
             }
             else
             {
@@ -193,4 +200,11 @@ public class Player : MonoBehaviour
         _lives--;
         OnLivesChanged?.Invoke(_lives);
     }
+}
+
+[System.Serializable]
+public class Projections
+{
+    public GameObject prefab;
+    public int price;
 }
