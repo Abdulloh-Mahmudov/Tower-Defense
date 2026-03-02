@@ -16,11 +16,13 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private GameObject _gameWon;
     [SerializeField] private GameObject _mainUI;
     [SerializeField] private GameObject _pauseMenu;
+    [SerializeField] private Text _statusText;
 
     private void OnDisable()
     {
         Player.OnLivesChanged -= UpDateLives;
         Player.OnWarfundsChanged -= UpdateWarfunds;
+        Player.OnStatusChanged -= UpdateStatus;
         SpawnManager.OnWaveStart -= SpawnManager_OnWaveStart;
     }
 
@@ -28,9 +30,32 @@ public class UI_Manager : MonoBehaviour
     {
         Player.OnLivesChanged += UpDateLives;
         Player.OnWarfundsChanged += UpdateWarfunds;
+        Player.OnStatusChanged += UpdateStatus;
         SpawnManager.OnWaveStart += SpawnManager_OnWaveStart;
     }
 
+    private void UpdateStatus(int stages)
+    {
+        switch (stages)
+        {
+            case 1:
+                _statusText.text = "Good";
+                _statusText.color = Color.blue;
+                break;
+            case 2:
+                _statusText.text = "Average";
+                _statusText.color = Color.yellow;
+                break;
+            case 3:
+                _statusText.text = "Bad";
+                _statusText.color = Color.red;
+                break;
+            default:
+                _statusText.text = "Good";
+                _statusText.color = Color.green;
+                break;
+        }
+    }
 
     private void SpawnManager_OnWaveStart(int current, int max)
     {
@@ -46,6 +71,7 @@ public class UI_Manager : MonoBehaviour
     {
         _lives.text = lives.ToString();
     }
+
 
 
     private void Start()

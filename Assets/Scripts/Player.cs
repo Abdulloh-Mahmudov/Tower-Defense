@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 {
     public static event Action<int> OnLivesChanged;
     public static event Action<int> OnWarfundsChanged;
+    public static event Action<int> OnStatusChanged;
     public static event Action<Color> OnProjectionUsed;
     public static event Action<Platform,int> OnUpgradePlatformSelected;
 
@@ -70,6 +71,8 @@ public class Player : MonoBehaviour
         _warFunds = 0;
         _warFunds = _initialFunds;
         OnWarfundsChanged?.Invoke(_warFunds);
+        OnLivesChanged?.Invoke(_lives);
+        OnStatusChanged(Status());
     }
 
     private void Update()
@@ -198,7 +201,26 @@ public class Player : MonoBehaviour
     void LoseLives()
     {
         _lives--;
+        OnStatusChanged(Status());
         OnLivesChanged?.Invoke(_lives);
+    }
+
+    int Status()
+    {
+        int stage;
+        if (_lives >= 60)
+        {
+            stage = 1;
+        }
+        else if (_lives > 20 && _lives < 60)
+        {
+            stage = 2;
+        }
+        else
+        {
+            stage = 3;
+        }
+        return stage;
     }
 }
 
