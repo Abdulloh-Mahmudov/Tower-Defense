@@ -13,11 +13,12 @@ public class Player : MonoBehaviour
     public static event Action<Color> OnProjectionUsed;
     public static event Action<Platform,int> OnUpgradePlatformSelected;
 
-    [SerializeField] private GameObject _projection;
+    [SerializeField] private GameObject[] _projection;
     [SerializeField] private GameObject _currentProjection;
     private int _currentProjectionID;
     [SerializeField] private bool _isProjecting;
     [SerializeField] private float _speed;
+    [SerializeField] private int _initialFunds;
     public static int _warFunds;
     [SerializeField] private int _lives;
     [SerializeField] private LayerMask _mask;
@@ -31,7 +32,7 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         Enemy_AI.OnEnemyReachedBase -= HandleEnemyAttack;
-        SpawnManager.OnWaveEnded -= HandleWaveReward;
+        Enemy_AI.OnEnemyDied -= HandleEnemyReward;
         Platform.OnTurretDismantle -= HandleTurretDismantle;
         Platform.OnTurretPurchase -= HandleTurretPurchase;
     }
@@ -39,9 +40,14 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         Enemy_AI.OnEnemyReachedBase += HandleEnemyAttack;
-        SpawnManager.OnWaveEnded += HandleWaveReward;
+        Enemy_AI.OnEnemyDied += HandleEnemyReward;
         Platform.OnTurretDismantle += HandleTurretDismantle;
         Platform.OnTurretPurchase += HandleTurretPurchase;
+    }
+
+    private void HandleEnemyReward(int reward)
+    {
+        GetWarFunds(reward);
     }
 
     private void HandleTurretPurchase(int price)
@@ -54,11 +60,6 @@ public class Player : MonoBehaviour
         GetWarFunds(reward);
     }
 
-    private void HandleWaveReward(int reward)
-    {
-        GetWarFunds(reward);
-    }
-
     private void HandleEnemyAttack()
     {
         LoseLives();
@@ -67,6 +68,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _warFunds = 0;
+        _warFunds = _initialFunds;
         OnWarfundsChanged?.Invoke(_warFunds);
     }
 
@@ -85,10 +87,6 @@ public class Player : MonoBehaviour
         {
             _isProjecting = false;
         }
-        if (Keyboard.current.rKey.isPressed)
-        {
-            _isProjecting = true;
-        }
 
 
         if (_isProjecting)
@@ -97,11 +95,7 @@ public class Player : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, _mask))
             {
-                if(_currentProjection == null)
-                {
-                    _currentProjection = Instantiate(_projection, hit.point, Quaternion.identity);
-                }
-                else
+                if(_currentProjection!= null)
                 {
                     _currentProjection.transform.position = hit.point;
                 }
@@ -161,6 +155,25 @@ public class Player : MonoBehaviour
         pos.z = Mathf.Clamp(pos.z, _zBoundaryNegative, _zBoundary);
 
         transform.position = pos;
+    }
+
+    public void Projection(int turretID)
+    {
+        _currentProjectionID = turretID;
+        _isProjecting = true;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, _mask))
+        {
+            if (_currentProjection == null)
+            {
+                _currentProjection = Instantiate(_projection[turretID], hit.point, Quaternion.identity);
+            }
+            else
+            {
+                _currentProjection.transform.position = hit.point;
+            }
+        }
     }
 
     void GetWarFunds(int funds)

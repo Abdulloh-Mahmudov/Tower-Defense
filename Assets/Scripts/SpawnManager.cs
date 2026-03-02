@@ -5,7 +5,6 @@ using System;
 
 public class SpawnManager : MonoBehaviour
 {
-    public static event Action<int> OnWaveEnded;
     public static event Action<int, int> OnWaveStart;
 
     [SerializeField] private Transform _destination;
@@ -40,7 +39,6 @@ public class SpawnManager : MonoBehaviour
             }
 
             OnWaveStart?.Invoke(_currentWave + 1, waves.Length);
-            OnWaveEnded?.Invoke(waves[_currentWave].reward);
             yield return new WaitForSeconds(waves[_currentWave].waveDelay);
             for(_enemyCount = 0; _enemyCount < waves[_currentWave].enemyCount; _enemyCount++)
             {
@@ -64,5 +62,4 @@ public class Wave
     public int enemyCount;
     public int spawnRate;
     public int waveDelay;
-    public int reward;
 }

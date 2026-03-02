@@ -6,7 +6,7 @@ using System;
 
 public class Enemy_AI : MonoBehaviour
 {
-    public static event Action OnEnemyDied;
+    public static event Action<int> OnEnemyDied;
     public static event Action OnEnemyReachedBase;
     private NavMeshAgent _agent;
     private Transform _target;
@@ -14,7 +14,10 @@ public class Enemy_AI : MonoBehaviour
     private float _speed = 1.5f;
     [SerializeField]
     private float _health = 100f;
+    [SerializeField]
+    private int _reward = 150;
     private Animator _anim;
+    private bool _isDead = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -47,7 +50,7 @@ public class Enemy_AI : MonoBehaviour
         _health -= amount;
         _anim.SetTrigger("Hit");
 
-        if (_health < 1)
+        if (_health < 1 && _isDead == false)
         {
             Died();
         }
@@ -59,8 +62,9 @@ public class Enemy_AI : MonoBehaviour
 
     private void Died()
     {
-        OnEnemyDied?.Invoke();
+        OnEnemyDied?.Invoke(_reward);
         _agent.speed = 0;
+        _isDead = true;
         _anim.SetTrigger("Dead");
         Destroy(this.gameObject, 1.5f);
     }

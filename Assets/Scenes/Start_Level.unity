@@ -1232,9 +1232,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 262643501}
-        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
-        m_MethodName: BuildButton
+      - m_Target: {fileID: 534669906}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: Projection
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4119,10 +4119,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8012c47b0abf9142b24e10c0cf9decd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projection: {fileID: 3475938929794165288, guid: d34d17d0b26fc2a4f9f2a36e5da7b8cd, type: 3}
+  _projection:
+  - {fileID: 3475938929794165288, guid: d34d17d0b26fc2a4f9f2a36e5da7b8cd, type: 3}
+  - {fileID: 7336899928081085653, guid: c7ed61eed6c630f4e9e50a7942f90c2a, type: 3}
   _currentProjection: {fileID: 0}
   _isProjecting: 0
   _speed: 5
+  _initialFunds: 500
   _lives: 20
   _mask:
     serializedVersion: 2
@@ -5144,23 +5147,18 @@ MonoBehaviour:
   - enemyCount: 5
     spawnRate: 10
     waveDelay: 0
-    reward: 500
   - enemyCount: 10
     spawnRate: 7
     waveDelay: 15
-    reward: 1500
   - enemyCount: 10
     spawnRate: 6
     waveDelay: 15
-    reward: 1500
   - enemyCount: 12
     spawnRate: 4
     waveDelay: 0
-    reward: 2000
   - enemyCount: 30
     spawnRate: 2
     waveDelay: 0
-    reward: 2000
   _currentWave: 0
   _enemyCount: 0
   _currentEnemies: 0
@@ -10108,9 +10106,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 262643501}
-        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
-        m_MethodName: BuildButton
+      - m_Target: {fileID: 534669906}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: Projection
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
