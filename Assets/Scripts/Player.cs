@@ -12,13 +12,14 @@ public class Player : MonoBehaviour
     public static event Action<int> OnWarfundsChanged;
     public static event Action<int> OnStatusChanged;
     public static event Action<Color> OnProjectionUsed;
-    public static event Action<Platform,int> OnUpgradePlatformSelected;
+    public static event Action<Platform, int> OnUpgradePlatformSelected;
 
     [SerializeField] private Projections[] _projection;
     [SerializeField] private GameObject _currentProjection;
     private int _currentProjectionID;
     [SerializeField] private bool _isProjecting;
     [SerializeField] private float _speed;
+    [SerializeField] private float _scrollSpeed;
     [SerializeField] private int _initialFunds;
     public static int _warFunds;
     [SerializeField] private int _lives;
@@ -150,10 +151,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Movement(Vector2 direction)
+    public void Movement(Vector2 direction, float scrollValue)
     {
         transform.Translate(new Vector3(direction.x,0,direction.y) * _speed * Time.deltaTime, Space.World);
         Boundaries();
+        Camera.main.fieldOfView -= scrollValue * _scrollSpeed;
+        Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, 25, 35);
     }
 
     void Boundaries()

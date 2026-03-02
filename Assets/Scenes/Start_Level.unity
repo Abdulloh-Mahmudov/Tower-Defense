@@ -4127,8 +4127,9 @@ MonoBehaviour:
   _currentProjection: {fileID: 0}
   _isProjecting: 0
   _speed: 5
+  _scrollSpeed: 0.01
   _initialFunds: 500
-  _lives: 60
+  _lives: 80
   _mask:
     serializedVersion: 2
     m_Bits: 64
@@ -5147,16 +5148,16 @@ MonoBehaviour:
   _enemyContainer: {fileID: 924638143}
   _enemyPrefab: {fileID: 3365768773950977035, guid: 06d945068f7df304daec30e2b0ef0076, type: 3}
   waves:
-  - enemyCount: 5
+  - enemyCount: 10
     spawnRate: 10
     waveDelay: 0
-  - enemyCount: 10
+  - enemyCount: 20
     spawnRate: 7
     waveDelay: 15
-  - enemyCount: 10
+  - enemyCount: 25
     spawnRate: 6
     waveDelay: 15
-  - enemyCount: 12
+  - enemyCount: 25
     spawnRate: 4
     waveDelay: 0
   - enemyCount: 30
@@ -8067,7 +8068,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f6b7f1ea59e7b5b4d93b0df927755411, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0

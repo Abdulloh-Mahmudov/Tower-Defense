@@ -16,7 +16,8 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         var move = _input.Player.Movement.ReadValue<Vector2>();
-        _player.Movement(move);
+        var zoom = _input.Player.Zoom.ReadValue<Vector2>();
+        _player.Movement(move,zoom.y);
     }
 
     void InitializeInputs()
