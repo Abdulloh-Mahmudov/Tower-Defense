@@ -132,6 +132,20 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
+    public void ShowDismantleUI(GameObject dismantleUI)
+    {
+        if (SelectionManager.Instance.SelectedObject != null)
+        {
+            Platform platform = SelectionManager.Instance.SelectedObject.GetComponent<Platform>();
+            bool occupied = platform._occupied;
+
+            if (occupied == true)
+            {
+                dismantleUI.SetActive(true);
+            }
+        }
+    }
+
     public void HideUpgradeUI()
     {
         for (int i = 0; i < _actionMenus.transform.childCount; i++)

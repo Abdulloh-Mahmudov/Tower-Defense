@@ -8855,7 +8855,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 592720673}
         m_TargetAssemblyTypeName: UI_Manager, Assembly-CSharp
-        m_MethodName: ShowUI
+        m_MethodName: ShowDismantleUI
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1624499973}
