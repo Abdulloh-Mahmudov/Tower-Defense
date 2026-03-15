@@ -50,12 +50,15 @@ Resource / currency system
 
 Controls
 WASD Keys for Movement
+
 Place Turret Left	Mouse Click
+
 Cancel Turret Placement Right Mouse Click
+
 Select Turret	Left Mouse Click
+
 Start Wave	UI Button
 
-(Adjust this if your controls differ)
 
 Technologies Used
 
@@ -91,7 +94,7 @@ Open the main scene
 
 Press Play to run the game
 
-git clone https://github.com/yourusername/tower-defense-game.git
+git clone https://github.com/Abdulloh-Mahmudov/Tower-Defense.git
 Future Improvements
 
 Additional turret types
